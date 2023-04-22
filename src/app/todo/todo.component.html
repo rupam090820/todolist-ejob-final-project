@@ -1,0 +1,78 @@
+<header class="jumbotron">
+ <h3 align="center">
+       All Todo List 
+ </h3>
+</header>
+<section >
+       <span class="float-right">
+              <button class="btn btn-info">{{loggedUser}}</button>|
+              <button class="btn btn-danger" (click)="logOut()">logOut</button>
+       </span>
+</section>
+<div class="row">
+       <div class="col-lg-8">
+          <!---All todos View Form Back End -->
+          <div class="card">
+              <div class="card-header">
+                     <h4 align="center">Todos</h4>
+                     <!-- Value:{{serachTodo}} -->
+                     <section class="form-group">
+                            <input type="text" class="form-control" [(ngModel)]="serachTodo" placeholder="Search Todos......!">
+                     </section>
+                    <table class="table table-hover table-bordered">
+                     <tr>   
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Description </th>
+                            <th>Created</th>
+                     </tr>
+                     <tr *ngFor="let t of AllTodos | todoFilter:serachTodo
+                                                   | paginate:
+                                                   { itemsPerPage:4, 
+                                                     currentPage:page ,
+                                                     totalItems:totalTodos
+                                                   }">
+                            <td>
+                          <input type="radio" name="todo" (change)="Select(t)" >
+                            </td>                       
+                            <td>{{t.title}}</td>
+                            <td>{{t.description}}</td>
+                            <td>{{t.created}}</td>
+                     </tr>
+                    </table>
+                    <pagination-controls (pageChange)="page= $event"></pagination-controls>
+              </div>
+          </div>
+           
+       </div>
+       <div class="col-lg-4">
+
+              <div class="card">
+                     <div class="card-header">
+                            <h4 align="center">Todos Operations :</h4>
+                            
+                     </div>
+                     <form>
+                            <div class="form-group">
+                            <label>Title:</label>
+                            <input type="text" [(ngModel)]="newTodo.title" name="title" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                             <label>Description:</label>
+                             <textarea class="form-control" [(ngModel)]="newTodo.desc" name="desc" id="d" cols="30" rows="10"></textarea>
+                            </div>
+                            
+                            <div class="form-group" *ngIf="selectedTodo.length==0">
+                                   <button class="btn btn-sm btn-outline-primary" (click)="AddTodo()">ADD</button>
+                            
+                            </div>
+                     
+                            
+                            <div *ngIf="selectedTodo.length!=0 " class="form-group">
+                                   <button class="btn btn-sm btn-outline-info" (click)="updateTodo()">UPDATE</button>|
+                                   <button class="btn btn-sm btn-outline-danger" (click)="deleteTodo()">DELETE</button>
+                            </div>
+                     
+                     </form>
+       </div>
+</div>
